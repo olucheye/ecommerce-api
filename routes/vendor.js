@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const Vendor = require('../models/vendor.model');
 
+//@ Router for root 
 router.route('/')
 
     .get((req,res)=> {
@@ -35,6 +36,7 @@ router.route('/')
 
 
     });
+
 
 
 module.exports = router;

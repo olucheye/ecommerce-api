@@ -3,9 +3,6 @@ const mongoose = require('mongoose');
 //const _ = require('lodash');
 const PORT = (process.env.PORT || 3000);
 
-//import models
-//const store = require('models/')
-
 //Define URL & confirm connection status
 mongoose.connect('mongodb://localhost:27017/theMall', { useNewUrlParser: true, useUnifiedTopology: true});
 const db = mongoose.connection;
@@ -16,15 +13,18 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+// Requiring route files
 const vendorRouter = require('./routes/vendor');
 const groceryRouter = require('./routes/grocery');
 const electronicsRouter = require('./routes/electronics');
 
+// Using route files to serve requests to different endpoints
 app.use('/vendor', vendorRouter);
 app.use('/grocery', groceryRouter);
 app.use('/electronics', electronicsRouter);
 
 
+//Server Outpit
 app.listen(PORT, () => {
     console.log(`Server is now running on ${PORT}`);
 });

@@ -1,8 +1,9 @@
-
+const _ = require('lodash');
 const router = require('express').Router();
-//let Store = require('../models/vendor.model');
+const Electronics = require('../models/electronics.model');
 
-router.route("/electronics/")
+//@Root Routes
+router.route("/")
 
     .get((req, res)=>{
         Electronics.find({}, function(err, electronics){
