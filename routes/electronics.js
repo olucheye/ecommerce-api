@@ -40,4 +40,50 @@ router.route('/add')
 
 //@@ Item specific routes
 
+router.route('/:sku')
+    .get((req,res)=> {
+        let sku = req.params.sku;
+        Electronics.findOne({sku: sku})
+            .then(item=>res.status(200).json(item))
+            .catch(err=> res.status(400).json("Error: " + err));
+    })
+
+    .delete((req,res)=>{
+        let sku = req.params.sku;
+
+        Electronics.findOneAndDelete({sku: sku})
+        .then(()=>res.status(200).json("Item successfully deleted"))
+        .catch(err=>res.status(400).json("Error: " + err));
+    })
+
+    .put((req,res)=>{
+        let sku = req.params.sku;
+        let brand = _.capitalize(req.body.brand);
+
+        Electronics.update(
+            {sku: sku},
+            { 
+                brand: req.body.brand, desc: req.body.desc,
+                store: req.body.store, quantity: req.body.quantity,
+                price: Number(req.body.price),  sku: req.body.sku
+            },
+            {overwrite:true})
+            .then(()=>res.status(200).json(`${brand} successfully updated`))
+            .catch(err=>res.status(400).json("Error: " + err));
+    })
+
+    .patch((req,res)=>{
+        let sku = req.params.sku;
+        
+        //picking exact values updated
+        //let obj = Object.entries(req.body)
+       
+
+        Electronics.update({sku: sku}, {$set: req.body})
+            .then(()=>res.status(200).json( `successfully updated`))
+            // + obj.forEach(value => `${value[0]}`) trying to pass in each updated values
+            .catch(err=>res.status(400).json("Error: " + err));
+    });
+
 module.exports = router;
+
