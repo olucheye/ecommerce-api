@@ -1,6 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const _ = require('lodash');
+//const _ = require('lodash');
 const PORT = (process.env.PORT || 3000);
 
 //import models
@@ -13,14 +13,14 @@ db.once('open', () => console.log("Database is now connected"));
 
 const app = express();
 
-app.use(express.urlencoded());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
-//app.use(express.json());
-
+const vendorRouter = require('./routes/vendor');
 const groceryRouter = require('./routes/grocery');
 const electronicsRouter = require('./routes/electronics');
 
-
+app.use('/vendor', vendorRouter);
 app.use('/grocery', groceryRouter);
 app.use('/electronics', electronicsRouter);
 

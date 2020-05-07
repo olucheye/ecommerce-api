@@ -7,16 +7,13 @@ const mongoose = require('mongoose');
 const grocerySchema = new mongoose.Schema({
     productName: {
         type: String,
-        required: [true, 'Name cannot be left blank'],
-        minlength: 5,
-        unique: true,
+        required: [true, 'No Name?'],
         trim: true
     },
     store: String,
     quantity: Number,
     price: Number,
-    sku: Number,
-    vendor: vendorSchema
+    //vendor: vendorSchema
 
 });
 

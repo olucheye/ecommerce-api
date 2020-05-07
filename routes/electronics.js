@@ -1,12 +1,11 @@
-const express = require('express');
-const app = express();
 
+const router = require('express').Router();
+//let Store = require('../models/vendor.model');
 
-let Store = require('../models/vendor.model');
+router.route("/electronics/")
 
-app.route("/electronics/")
     .get((req, res)=>{
-        electronics.find({}, function(err, electronics){
+        Electronics.find({}, function(err, electronics){
             if (!err) {
                 res.send(electronics);
             }else{
@@ -18,3 +17,6 @@ app.route("/electronics/")
     .post((req,res)=>{
 
     });
+
+
+module.exports = router;

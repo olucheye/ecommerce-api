@@ -1,7 +1,7 @@
 {
   "name": "themall",
   "version": "1.0.0",
-  "description": "",
+  "description": "NodeJS REST api for a sample ecommerce store",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

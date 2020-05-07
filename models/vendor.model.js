@@ -6,13 +6,12 @@ const vendorSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Name cannot be left blank'],
         minlength: 5,
-        unique: true,
         trim: true
     },
     location: String,
     phoneNumber: Number,
 });
 
-const Store = mongoose.model('Vendor', vendorSchema);
+const Vendor = mongoose.model('Vendor', vendorSchema);
 
-module.exports = Store;
+module.exports = Vendor;
