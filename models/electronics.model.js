@@ -1,23 +1,18 @@
 const mongoose = require('mongoose');
 
-//@* import vendor vendor schema here
-
-//*@ DB schema and model for Vendor
-
 const electronicsSchema = new mongoose.Schema({
-    productName: {
+    brand: {
         type: String,
-        required: [true, 'Name cannot be left blank'],
+        required: true,
         minlength: 5,
-        unique: true,
         trim: true
     },
-    modelNumber: Number,
+    desc: String,
     store: String,
     quantity: Number,
     price: Number,
     sku: Number,
-    vendor: vendorSchema
+    //vendor: vendorSchema
 
 });
 
