@@ -6,6 +6,7 @@ const Electronics = require('../models/electronics.model');
 //@ Promises to handle callbacks reponse and errors
 router.route("/")
 
+      //@@ ROUTE: FETCH (Fetches all items from the electronics collection)
     .get((req, res)=>{
         Electronics.find()
             .then(electronics => res.status(200).json({
@@ -19,8 +20,8 @@ router.route("/")
             }));
     });
 
-
 router.route('/add')
+    //@@ ROUTE: POST (Adds new item to the electronics collection)
     .post((req,res)=>{
         let brand = _.capitalize(req.body.brand);
         let {desc, store, quantity, price, sku} = req.body;
@@ -45,45 +46,69 @@ router.route('/add')
 
 
 //@@ Item specific routes [GET, DELETE, PUT & PATCH]
-//@@ DESC: Using sku as key for operation and not Object.id
+//@@ DESC: Uses sku as key for operation and not Object.id
 
 router.route('/:sku')
+
+    //@ROUTE: GET
+    //@desc: Finds item and returns error if not found
     .get((req,res)=> {
 
         let {sku} = req.params;
 
         Electronics.findOne({sku: sku})
-            .then(item=>res.status(200).json({
-                success: true,
-                data: item
-            }))
+            .then(item => {
+                if(!item){
+                    res.status(404).json({
+                        success: false,
+                        message: "Item not found",
+                    })
+                }else{
+                    res.status(200).json({
+                        success: true,
+                        data: item
+                    })
+                }
+            })
             .catch(err=> res.status(400).json({
                 success: false,
                 message: "Error: " + err
             }));
     })
 
+    //@ROUTE: DELETE
+    //@desc: Finds & validate item before deleting
     .delete((req,res)=>{
 
         let {sku} = req.params;
-
-        Electronics.findOneAndDelete({sku: sku})
-        .then(()=>res.status(200).json({
-            success: true,
-            message: "Item successfully deleted"
-        }))
-        .catch(err=>res.status(400).json({
-            success: false,
-            message: "Error: " + err
-        }));
+       
+        Electronics.findOneAndRemove({sku:sku})
+            .then(electronic => {
+                if(!electronic){ 
+                    res.status(404).json({
+                        success: false,
+                        message: "Item not found"
+                    })
+                }else{
+                    res.status(204).json({
+                        success: true,
+                        message: "Item successfully deleted"
+                    })
+                }
+            })
+            .catch(err=>res.status(400).json({
+                success: false,
+                message: "Error: " + err
+            }))
     })
 
+    //@ROUTE: PUT
+    //@desc: Finds item before updating
     .put((req,res)=>{
         let {sku} = req.params;
         let brand = _.capitalize(req.body.brand);
 
-        Electronics.update(
-
+        Electronics.updateOne(
             //let{ brand, desc, store, quantity, price, sku } = req.body;
             {sku: sku},
             { 
@@ -93,24 +118,34 @@ router.route('/:sku')
             },
             {overwrite:true})
 
-            .then(()=>res.status(200).json({
-                success: true,
-                message: `${brand} successfully updated`,
-                data: item
-            }))
+            .then(electronic => {
+                if(!electronic){ 
+                    res.status(404).json({
+                        success: false,
+                        message: "Item not found"
+                    })
+                }else{
+                    res.status(201).json({
+                        success: true,
+                        message: `${brand} successfully updated`,
+                        data: item
+                    })
+                }
+            })
             .catch(err=>res.status(400).json({
                 success: false,
                 message: "Error: " + err
             }));
     })
 
+    //@ROUTE: PATCH
     .patch((req,res)=>{
         let sku = req.params.sku;
         
         //picking exact values updated
         let patchedData = Object.entries(req.body).map(val=>val[0]);
 
-        Electronics.update({sku: sku}, {$set: req.body})
+        Electronics.updateOne({sku: sku}, {$set: req.body})
             .then(()=>res.status(200).json( {
                 success: true,
                 message: `${patchedData} was updated`
