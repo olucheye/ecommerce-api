@@ -19,12 +19,12 @@ const groceryRouter = require('./routes/grocery');
 const electronicsRouter = require('./routes/electronics');
 
 // Using route files to serve requests to different endpoints
-app.use('/vendor', vendorRouter);
-app.use('/grocery', groceryRouter);
-app.use('/electronics', electronicsRouter);
+app.use('/api/v1/vendor', vendorRouter);
+app.use('/api/v1/grocery', groceryRouter);
+app.use('/api/v1/electronics', electronicsRouter);
 
 
-//Server Outpit
+//Server Output
 app.listen(PORT, () => {
     console.log(`Server is now running on ${PORT}`);
 });

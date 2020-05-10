@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 
 //@* import vendor vendor schema here
 
-//*@ DB schema and model for Vendor
+// @DESC DB schema and model for Vendor
 
 const grocerySchema = new mongoose.Schema({
     productName: {
