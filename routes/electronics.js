@@ -6,7 +6,7 @@ const Electronics = require('../models/electronics.model');
 //@ Promises to handle callbacks reponse and errors
 router.route("/")
 
-      //@@ ROUTE: FETCH (Fetches all items from the electronics collection)
+    //@@ ROUTE: FETCH (Fetches all items from the electronics collection)
     .get((req, res)=>{
         Electronics.find()
             .then(electronics => res.status(200).json({
@@ -99,7 +99,7 @@ router.route('/:sku')
             .catch(err=>res.status(400).json({
                 success: false,
                 message: "Error: " + err
-            }))
+            }));
     })
 
     //@ROUTE: PUT
