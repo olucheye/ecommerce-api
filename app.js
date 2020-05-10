@@ -1,10 +1,13 @@
 const express = require('express');
 const mongoose = require('mongoose');
-//const _ = require('lodash');
-const PORT = (process.env.PORT || 3000);
+const dotenv = require('dotenv');
 
+
+dotenv.config()
+
+const MONGOURI = process.env.MONGODB_URI;
 //Define URL & confirm connection status
-mongoose.connect('mongodb://localhost:27017/theMall', { useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.connect(MONGOURI, { useNewUrlParser: true, useUnifiedTopology: true});
 const db = mongoose.connection;
 db.once('open', () => console.log("Database is now connected"));
 
@@ -25,6 +28,9 @@ app.use('/api/v1/electronics', electronicsRouter);
 
 
 //Server Output
+
+const PORT = (process.env.PORT || 3000);
+
 app.listen(PORT, () => {
     console.log(`Server is now running on ${PORT}`);
 });
